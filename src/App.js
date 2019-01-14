@@ -2,22 +2,57 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './js/util/serviceWorker';
 
-import NavBar from './js/comp/NavBar/NavBar';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import cyan from '@material-ui/core/colors/cyan';
+
+import Login from './js/screens/LoginScreen';
 
 import './css/default.css';
+import HomeScreen from './js/screens/HomeScreen';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#fafafa',
+    },
+    secondary: {
+      main: '#00a4c4'
+    }
+  },
+});
 
 
 class App extends Component {
+  constructor(){
+    super();
+    this.setUserData = this.setUserData.bind(this);
+
+    this.state = {
+      currentScreen: <Login loginReturn={this.setUserData.bind(this)} loggedIn={false}/>, // Current Screen determines what screen its on, default is Login.
+      userData: null,
+      loggedIn: false //  Global checker so components know - more verification on server side.
+    }
+  }
   componentDidMount(){
-      //  Just to combat some typography stuff we won't be using anyways.
-      //  Ignore this basically.
-      window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
+    window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
+    this.checkLoggedIn();
+  }
+  checkLoggedIn(){
+    // For people that have logged in already and have the logged in cookie.
+    if(this.state.userData){
+      this.setState({currentScreen: <HomeScreen />})
+    }
+  }
+  setUserData(userData){
+    this.setState({userData: userData, loggedIn: true}, () => {
+      this.checkLoggedIn();
+    });
   }
   render(){
     return(
-      <div>
-        <NavBar /> 
-      </div>
+      <MuiThemeProvider theme={theme}>
+          {this.state.currentScreen} 
+      </MuiThemeProvider>
     );
   }
 }

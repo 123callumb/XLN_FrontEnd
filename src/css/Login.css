@@ -1,0 +1,17 @@
+.loginHolder {
+    border-radius: 0;
+    margin: auto;
+    max-width: 300px;
+    padding: 4% 2%;
+    width: 90%;
+    text-align: center;
+    margin-top: 25vh;
+}
+
+
+.loginScreenBack {
+    background-image: url('../res/MapBackground.png');
+    background-size: cover;
+    opacity: 1.0;
+    height: 100vh;
+}
