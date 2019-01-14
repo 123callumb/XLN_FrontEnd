@@ -1,0 +1,10 @@
+@font-face {
+	font-family: "Roboto";
+	src:url("../res/Roboto-Light.ttf") format(truetype);
+}
+/* I really like this font, prefer if we used it, we dont have to but it's here for now. */
+body {
+	font-family: 'Roboto';
+	padding: 0px;
+	margin: 0px;
+}
