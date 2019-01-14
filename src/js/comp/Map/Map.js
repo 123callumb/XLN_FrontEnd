@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
 
-import { Map, GoogleApiWrapper } from 'google-maps-react';
+import GoogleMapReact from 'google-map-react';
 
-class MapContainer extends Component {
+export default class Map extends Component {
+    constructor(){
+        super();
+        this.state = {
+            center: {lat: 59.95, lng: 30.33},
+            zoom: 11
+        }
+    }
     render(){
         return(
-            <Map google={this.props.google} zoom={14} name="Current Loc">
-                
-            </Map>
+            <div style={{width: '100vw', height: '100vh'}}>
+                <GoogleMapReact bootstrapURLKeys={'AIzaSyBSh_Mzr93v9bT4kD1I6doJ3D_GHwe8_2E'} zoom={this.state.zoom} center={this.state.center}/>
+            </div>
         );
     }
 }
 
-export default GoogleApiWrapper({apiKey: 'blahaha'})(MapContainer);
+
