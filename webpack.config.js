@@ -51,9 +51,9 @@ module.exports = {
   },
   plugins: [htmlPlugin],
   devServer: {
-    // host: '192.168.1.13' | 'localhost',
+    // host: '172.20.10.2',
     proxy: {
-      '/':'http://localhost:8888'
+      '/':'http://localhost:8888/XLN/XLN-Backend/'
     }
   }
 };
