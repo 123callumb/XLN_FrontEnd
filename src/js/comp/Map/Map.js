@@ -11,7 +11,8 @@ const exampleDataArray = [
         lead: false,
         type: 'Fashion Store',
         long: -1.47265,
-        lat: 53.36612
+        lat: 53.36612,
+        rating: 6
     },
     {
         name: 'Sheffield Hallam University',
@@ -19,7 +20,8 @@ const exampleDataArray = [
         lead: true,
         type: 'University',
         long: -1.466250,
-        lat: 53.379092
+        lat: 53.379092,
+        rating: 1
     },
     {
         name: 'Bramhall Stadium',
@@ -27,7 +29,8 @@ const exampleDataArray = [
         lead: true,
         type: 'Sports Stadium',
         long: -1.470942,
-        lat: 53.370289
+        lat: 53.370289,
+        rating: 9
     }
 ];
 

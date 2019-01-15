@@ -7,6 +7,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import LogoIcon from '../../../res/logo.svg';
 import MenuBar from './MenuBar';
 
+
 class NavBar extends Component {
     constructor(props){
         super(props);

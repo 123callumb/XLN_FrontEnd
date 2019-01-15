@@ -5,10 +5,46 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grow from '@material-ui/core/Grow';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import AppBar from '@material-ui/core/AppBar';
 
-import { loginHolder } from '../../../css/Login.css';
+import { loginHolder, loginBoxHolder } from '../../../css/Login.css';
+
 
 export default class LoginBox extends Component {
+    constructor(){
+        super();
+        this.state = {
+            tab: 'login'
+        }
+    }
+    render(){
+        return(
+            <Grow in={true}>
+                <Grid container>
+                    <Paper className={loginHolder}>
+                        <AppBar position="static">
+                            <Tabs value={this.state.tab} onChange={(e, v) => this.setState({tab: v})}>
+                                <Tab value='login' label="Login" style={{width: '50%'}}/>
+                                <Tab value='admin' label="Admin Login" style={{width: '50%'}} />
+                            </Tabs>
+                        </AppBar>
+                        {this.state.tab == 'admin' ? 
+                        <LoginHolder loginReturn={this.props.loginReturn.bind(this)} type="admin"/>
+                        :
+                        <LoginHolder loginReturn={this.props.loginReturn.bind(this)} type="user"/>
+                         }
+                        
+                    </Paper>
+                </Grid>
+            </Grow>
+        );
+    }
+}
+
+
+class LoginHolder extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -41,6 +77,10 @@ export default class LoginBox extends Component {
                 
                 if(!resp.error){
                     console.log(resp.data);
+                    this.props.loginReturn({
+                        data: resp.data,
+                        type: this.props.type
+                    });    
                 }else{
                     console.log(resp.error);
                 }
@@ -50,29 +90,17 @@ export default class LoginBox extends Component {
             }
         })();
 
-        console.log("Finsihed async");
-
-
-        //This is here for now
-        this.props.loginReturn({
-            username: user,
-            sessionID: 13378654321
-        });
     } 
     render(){
         return(
-            <Grow in={true}>
-                <Grid container>
-                        <Paper className={loginHolder}>
-                            <TextField label="Username" placeholder="Username" onChange={(e) => this.setState({username: e.target.value})}/>
-                            <br />
-                            <TextField label="Password" type="password" onChange={(e) => this.setState({password: e.target.value})}/>
-                            <br />
-                            <br />
-                            <Button color="secondary" variant="outlined" onClick={() => this.login()}>Login</Button>
-                        </Paper>
-                </Grid>
-            </Grow>
+                <div className={loginBoxHolder}>
+                    <TextField label="Username" placeholder="Username" onChange={(e) => this.setState({username: e.target.value})}/>
+                    <br />
+                    <TextField label="Password" type="password" onChange={(e) => this.setState({password: e.target.value})}/>
+                    <br />
+                    <br />
+                    <Button color="secondary" variant="outlined" onClick={() => this.login()}>{this.props.type} Login</Button>
+                </div>
         );
     }
 }

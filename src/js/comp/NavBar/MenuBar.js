@@ -6,6 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Drawer from '@material-ui/core/Drawer';
 
 import { menuList } from '../../../css/NavBar.css';
+import Filter from './Filter';
 
 
 export default class MenuBar extends Component {
@@ -27,7 +28,8 @@ export default class MenuBar extends Component {
     }
     componentDidMount(){
         const loggedInContent = [
-            <ListItem button onClick={() => this.homeButton()}><ListItemText primary={"Home"}/></ListItem>
+            <ListItem button onClick={() => this.homeButton()}><ListItemText primary={"Home"}/></ListItem>,
+            <Filter />
         ];
 
         const notLoggedContent = [
