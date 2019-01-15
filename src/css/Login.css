@@ -9,10 +9,8 @@
 }
 
 .loginBoxHolder {
-    padding: 2% 4%;
-    padding-bottom: 6%;
+    padding: 5% 4%;
 }
-
 
 .loginScreenBack {
     background-image: url('../res/MapBackground.png');

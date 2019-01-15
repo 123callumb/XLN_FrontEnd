@@ -28,7 +28,7 @@ class App extends Component {
     this.setUserData = this.setUserData.bind(this);
 
     this.state = {
-      currentScreen: <Login loginReturn={this.setUserData.bind(this)} loggedIn={false}/>, // Current Screen determines what screen its on, default is Login.
+      currentScreen: <Login loginReturn={this.setUserData.bind(this)} loggedIn={false} authError={false}/>, // Current Screen determines what screen its on, default is Login.
       userData: null,
       loggedIn: false //  Global checker so components know - more verification on server side.
     }
@@ -39,12 +39,18 @@ class App extends Component {
   }
   checkLoggedIn(){
     // For people that have logged in already and have the logged in cookie.
-    if(this.state.userData){
-      this.setState({currentScreen: <HomeScreen />})
+    if(this.state.loggedIn){
+      this.setState({currentScreen: <HomeScreen userData={this.state.userData}/>});
+    }else{
+      this.setState({currentScreen: <Login loginReturn={this.setUserData.bind(this)} loggedIn={false} authError={true}/>});
     }
+  
   }
   setUserData(userData){
-    this.setState({userData: userData, loggedIn: true}, () => {
+    console.log(userData);
+    this.setState({userData: userData.data, loggedIn: userData.auth}, () => {
+      console.log("Loggedf in shoudl be " + userData.auth);
+      
       this.checkLoggedIn();
     });
   }
