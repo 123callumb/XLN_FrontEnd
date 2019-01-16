@@ -4,6 +4,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 
 import Map from '../comp/Map/Map';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import InfoBox from '../comp/InfoBox/InfoBox';
 
 const exampleDataArray = [
     {
@@ -13,7 +14,9 @@ const exampleDataArray = [
         businessType: 'Fashion Store',
         longitude: -1.47265,
         latitude: 53.36612,
-        rating: 6
+        rating: 6,
+        postCode: 'S2 4TG',
+        hasActiveLead: 0
     },
     {
         name: 'Sheffield Hallam University',
@@ -22,7 +25,9 @@ const exampleDataArray = [
         businessType: 'University',
         longitude: -1.466250,
         latitude: 53.379092,
-        rating: 1
+        rating: 1,
+        postCode: 'S2 4TG',
+        hasActiveLead: 1
     },
     {
         name: 'Bramhall Stadium',
@@ -31,7 +36,9 @@ const exampleDataArray = [
         businessType: 'Sports Stadium',
         longitude: -1.470942,
         latitude: 53.370289,
-        rating: 9
+        rating: 9,
+        postCode: 'S2 4TG',
+        hasActiveLead: 0
     }
 ];
 
@@ -44,7 +51,9 @@ export default class HomeScreen extends Component {
             long: null,
             lat: null,
             loaded: false,
-            businessData: null
+            businessData: null,
+            infoBox: false,
+            infoBoxData: null
         }
     }
     componentDidMount(){
@@ -72,7 +81,7 @@ export default class HomeScreen extends Component {
                                 console.log("%cHOMEPAGES: Loaded business data", "color: green");
                                 this.setState({businessData: dataRes.data});
                             }else{
-                                console.log("%cHOMEPAGES: Error parsing data result or data result is null :(", "color: red");
+                                console.log("%cHOMEPAGES: Error parsing data result or data result is null :( \n Going to examples data...", "color: red");
                                 this.setState({businessData: exampleDataArray}); 
                             }
                                         
@@ -95,12 +104,28 @@ export default class HomeScreen extends Component {
             rate: val
         }, () => this.forceUpdate());
     }
+    onInfoTap(retData){
+        this.setState({
+            infoBox: true,
+            infoBoxData: retData
+        },() =>{
+            this.forceUpdate();
+        });
+    }
+    closeInfoBox(){
+        this.setState({
+            infoBox: false
+        }, () => {
+            this.forceUpdate();
+        });
+    }
     render(){
         return(
             <div>
                 <NavBar loggedIn={true} toggleRating={this.toggleRating.bind(this)} rating={this.state.rate} businessData={this.state.businessData}/>
                 <Snackbar ContentProps={{style: {backgroundColor: 'rgb(40, 40, 40)'}}} autoHideDuration={4000} open={this.state.welcomeSnack} onClose={() => this.setState({welcomeSnack: false})} anchorOrigin={{vertical: 'bottom', horizontal: 'center'}} message={<span>Welcome back {this.props.userData.firstName}</span>} />
-                {this.state.businessData ? <Map rating={this.state.rate} businessData={this.state.businessData} long={this.state.long} lat={this.state.lat}/> : <CircularProgress color="secondary"/>}
+                <InfoBox enabled={this.state.infoBox} data={this.state.infoBoxData} closeHandler={this.closeInfoBox.bind(this)}/>
+                {this.state.businessData ? <Map rating={this.state.rate} businessData={this.state.businessData} long={this.state.long} lat={this.state.lat} onInfoTap={this.onInfoTap.bind(this)}/> : <CircularProgress color="secondary"/>}
             </div>
         );
     }

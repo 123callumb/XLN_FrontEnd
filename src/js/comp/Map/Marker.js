@@ -35,9 +35,9 @@ export class Marker extends Component {
        return(
            <Grow in={true}>
                <div className={markerHolderStyle}>
-                {this.state.enableDetails == true ? <Slide direction="right" in={true}><p className={markerHolderType}>{this.props.data.businessType}</p></Slide> : null}
+                {this.state.enableDetails == true ? <Grow in={true}><p className={markerHolderType}>{this.props.data.businessType}</p></Grow> : null}
                 {this.props.rating == true && this.state.enableDetails ? <Slide direction="right" in={true}><Rating stars={this.props.data.rating}/></Slide> : null}
-                <img src={MarkerSvg} height="100%" />
+                <img src={MarkerSvg} height="100%" onClick={() => this.props.onInfoTap(this.props.data)}/>
                </div>
            </Grow>
         );
