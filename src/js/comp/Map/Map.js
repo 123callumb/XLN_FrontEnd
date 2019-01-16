@@ -4,36 +4,6 @@ import GoogleMapReact from 'google-map-react';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { PositionMarker, Marker } from './Marker';
 
-const exampleDataArray = [
-    {
-        name: 'Magical Business of Shoes',
-        contact: 'magicshoes@gmail.com',
-        lead: false,
-        type: 'Fashion Store',
-        long: -1.47265,
-        lat: 53.36612,
-        rating: 6
-    },
-    {
-        name: 'Sheffield Hallam University',
-        contact: '0923294920',
-        lead: true,
-        type: 'University',
-        long: -1.466250,
-        lat: 53.379092,
-        rating: 1
-    },
-    {
-        name: 'Bramhall Stadium',
-        contact: 'sheffieldUnited@football.co.uk',
-        lead: true,
-        type: 'Sports Stadium',
-        long: -1.470942,
-        lat: 53.370289,
-        rating: 9
-    }
-];
-
 export default class Map extends Component {
     shouldComponentUpdate = shouldPureComponentUpdate;
 
@@ -47,43 +17,21 @@ export default class Map extends Component {
             data: null
         }
 
+        console.log("Passed long and lat" + this.props.lat + this.props.long);
+        
+
         this.googleMap = React.createRef();
     }
-    componentDidMount(){
-        navigator.geolocation.getCurrentPosition((pos)=> {
-            
-            this.setState({center: {
-                lat: pos.coords.latitude,
-                lng: pos.coords.longitude,
-                }}, () => {
-
-                    // Now we fetch the business data:
-                    (async() => {
-                        try{
-                            const dataReq = await fetch('api/business.php?longitude=' + this.state.lng + '&latitude=' + this.state.lat + '&radius=1&type=map', {
-                                method: 'GET'
-                            });
-                            const dataRes = await dataReq.json();
-
-                            console.log(dataRes);
-                            if(dataRes.data != null){
-                                this.setState({loaded: true, data: dataRes.data});
-                            }else{
-                                console.log("Error parsing data result or data result is null :(");
-                            }
-                            
-                        }catch(e){
-                            console.log("Error loading business data " + e);
-                            
-                        }
-                    })();
-
-                });
-            
-        }, (err) => {
-            console.log("Could not get your location!"); 
-            console.log(err); 
-        }, {timeout: 10000});
+    componentWillReceiveProps(newProps){
+        this.setState({
+            center: {lat: newProps.lat, lng: newProps.long},
+            data: newProps.businessData
+        }, () =>{
+            console.log("received Loaded lat and long and maybe data? - ");
+            this.setState({loaded: true}, ()=> {
+                this.forceUpdate();
+            });
+        });
     }
     changeOfMapDetails(values){
         console.log(values.zoom);

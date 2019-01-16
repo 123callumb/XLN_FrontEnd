@@ -47,7 +47,7 @@ export default class MenuBar extends Component {
             <h2 style={{paddingLeft: '16px'}}>Menu</h2>,
             <Divider width="90%" />,
             <ListItem button onClick={() => this.settings()}><ListItemText primary={"Settings"}/></ListItem>,
-            <ListItem button onClick={() => this.businessButton()}><ListItemText primary={"Business"}/></ListItem>,
+            <ListItem button onClick={() => this.businessButton()}><ListItemText primary={"Businesses"}/></ListItem>,
             <ListItem button onClick={() => this.logOut()}><ListItemText primary={"Log Out"}/></ListItem>,
             <Filter toggleRating={this.props.toggleRating.bind(this)} rating={this.props.rating} />
         ];

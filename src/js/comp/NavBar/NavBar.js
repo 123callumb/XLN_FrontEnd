@@ -17,10 +17,10 @@ class NavBar extends Component {
         console.log("Nav bar receives " + props.rating);
         
     }
-    componentWillReceiveProps(newprops){
-        console.log("Got new prop of " + newprops.rating);
+    componentWillReceiveProps(newProps){
+        console.log("Got new prop of " + newProps.rating);
         
-        this.props = newprops;
+        this.props = newProps;
     }
     onMenuButton(){
         this.setState({menuOpen: true});
