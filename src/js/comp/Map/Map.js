@@ -42,8 +42,12 @@ export default class Map extends Component {
         this.state = {
             center: {lat: 0, lng: 0},
             zoom: 15,
-            loaded: false
+            loaded: false,
+            mapLoaded: true,
+            data: null
         }
+
+        this.googleMap = React.createRef();
     }
     componentDidMount(){
         navigator.geolocation.getCurrentPosition((pos)=> {
@@ -51,22 +55,53 @@ export default class Map extends Component {
             this.setState({center: {
                 lat: pos.coords.latitude,
                 lng: pos.coords.longitude,
-                },
-                loaded: true
-            });
+                }}, () => {
+
+                    // Now we fetch the business data:
+                    (async() => {
+                        try{
+                            const dataReq = await fetch('api/business.php?longitude=' + this.state.lng + '&latitude=' + this.state.lat + '&radius=1&type=map', {
+                                method: 'GET'
+                            });
+                            const dataRes = await dataReq.json();
+
+                            console.log(dataRes);
+                            if(dataRes.data != null){
+                                this.setState({loaded: true, data: dataRes.data});
+                            }else{
+                                console.log("Error parsing data result or data result is null :(");
+                            }
+                            
+                        }catch(e){
+                            console.log("Error loading business data " + e);
+                            
+                        }
+                    })();
+
+                });
             
         }, (err) => {
+            console.log("Could not get your location!"); 
             console.log(err); 
         }, {timeout: 10000});
+    }
+    changeOfMapDetails(values){
+        console.log(values.zoom);
+        
+        this.setState({
+            zoom: values.zoom
+        }, () => {
+            this.forceUpdate()
+        });
     }
     render(){
         return(
             <div style={{width: '100vw', height: '102vh', overflowY: 'hidden'}}>
                 {this.state.loaded == true ?
-                <GoogleMapReact bootstrapURLKeys={{ key : 'AIzaSyBSh_Mzr93v9bT4kD1I6doJ3D_GHwe8_2E'}} zoom={this.state.zoom} center={this.state.center}>
+                <GoogleMapReact onChange={(e) => this.changeOfMapDetails(e)} ref={this.googleMap} bootstrapURLKeys={{ key : 'AIzaSyBSh_Mzr93v9bT4kD1I6doJ3D_GHwe8_2E'}} zoom={this.state.zoom} center={this.state.center}>
                     <PositionMarker lat={this.state.center.lat} lng={this.state.center.lng}  />
-                    {exampleDataArray.map((e, i) => {
-                        return (<Marker lat={e.lat} lng={e.long} data={e} key={i}/>);
+                    {this.state.data.map((e, i) => {
+                        return (<Marker lat={e.latitude} lng={e.longitude} data={e} key={i} rating={this.props.rating} zoom={this.state.zoom}/>);
                     })}
                 </GoogleMapReact>
                 : 

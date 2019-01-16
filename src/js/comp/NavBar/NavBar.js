@@ -14,6 +14,13 @@ class NavBar extends Component {
         this.state = {
             menuOpen: false
         }
+        console.log("Nav bar receives " + props.rating);
+        
+    }
+    componentWillReceiveProps(newprops){
+        console.log("Got new prop of " + newprops.rating);
+        
+        this.props = newprops;
     }
     onMenuButton(){
         this.setState({menuOpen: true});
@@ -36,7 +43,7 @@ class NavBar extends Component {
                         </Grid>
                     </Grid>
                 </AppBar>
-                <MenuBar menuOpen={this.state.menuOpen} closeMenu={this.closeMenu.bind(this)} loggedIn={this.props.loggedIn}/>
+                <MenuBar menuOpen={this.state.menuOpen} closeMenu={this.closeMenu.bind(this)} loggedIn={this.props.loggedIn} toggleRating={this.props.toggleRating.bind(this)} rating={this.props.rating}/>
             </div>
         );
     }

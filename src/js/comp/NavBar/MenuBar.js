@@ -4,35 +4,57 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Drawer from '@material-ui/core/Drawer';
+import Divider from '@material-ui/core/Divider';
 
 import { menuList } from '../../../css/NavBar.css';
 import Filter from './Filter';
+import SettingsDash from '../Dashboard/SettingsDash';
+import BusinessDash from '../Dashboard/BusinessDash';
+
 
 
 export default class MenuBar extends Component {
     constructor(props){
         super(props);
         this.state = {
-            menuContent: null
+            menuContent: null,
+            settingDash: false
         }
-        this.helpButton = this.helpButton.bind(this);
+
+        console.log("Menu bar receives " + props.rating);
+        
     }
-    signOutButton(){
-        console.log("Sign out button pressed");
+    componentWillReceiveProps(newprops){
+        this.props = newprops;
     }
-    homeButton(){
-        console.log("Press home button");
+    businessButton(){
+        this.setState({businessDash: true});
     }
-    helpButton(){
-        console.log("Help button Pressed");
+    logOut(){
+        console.log("logout");
     }
-    componentDidMount(){
+    settings(){
+        this.setState({settingDash: true});
+    }
+    disableSettings(){
+        this.setState({settingDash: false});
+    }
+    disableBusiness(){
+        this.setState({businessDash: false});
+    }
+    componentWillReceiveProps(){
         const loggedInContent = [
-            <ListItem button onClick={() => this.homeButton()}><ListItemText primary={"Home"}/></ListItem>,
-            <Filter />
+            <h2 style={{paddingLeft: '16px'}}>Menu</h2>,
+            <Divider width="90%" />,
+            <ListItem button onClick={() => this.settings()}><ListItemText primary={"Settings"}/></ListItem>,
+            <ListItem button onClick={() => this.businessButton()}><ListItemText primary={"Business"}/></ListItem>,
+            <ListItem button onClick={() => this.logOut()}><ListItemText primary={"Log Out"}/></ListItem>,
+            <Filter toggleRating={this.props.toggleRating.bind(this)} rating={this.props.rating} />
         ];
 
         const notLoggedContent = [
+            <h2 style={{paddingLeft: '16px'}}>Menu</h2>,
+            <Divider width="90%" />,
             <ListItem button onClick={() => this.helpButton()}><ListItemText primary={"Contact"}/></ListItem>
         ];
 
@@ -40,15 +62,19 @@ export default class MenuBar extends Component {
     }
     render(){
             return(
-                <Drawer anchor="left" open={this.props.menuOpen} onClose={this.props.closeMenu}>
-                    <List className={menuList}>
-                        {this.state.menuContent ? this.state.menuContent.map((el, i) => {
-                            return (
-                                <div key={i}>{el}</div>
-                            );
-                        }) : 'Loading'}
-                    </List>
-                </Drawer>
+                <div>
+                    <Drawer anchor="left" open={this.props.menuOpen} onClose={this.props.closeMenu}>
+                        <List className={menuList}>
+                            {this.state.menuContent ? this.state.menuContent.map((el, i) => {
+                                return (
+                                    <div key={i}>{el}</div>
+                                );
+                            }) : 'Loading'}
+                        </List>
+                    </Drawer>
+                    <SettingsDash enabled={this.state.settingDash} disableHandler={this.disableSettings.bind(this)}/>
+                    <BusinessDash enabled={this.state.businessDash} disableHandler={this.disableBusiness.bind(this)} />
+                </div>
             );
     }
 }
