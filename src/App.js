@@ -10,6 +10,8 @@ import Login from './js/screens/LoginScreen';
 import './css/default.css';
 import HomeScreen from './js/screens/HomeScreen';
 
+const DEV_MODE = false; // Enable if you're not using the backend.
+
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -41,6 +43,8 @@ class App extends Component {
     // For people that have logged in already and have the logged in cookie.
     if(this.state.loggedIn){
       this.setState({currentScreen: <HomeScreen userData={this.state.userData}/>});
+    }else if(DEV_MODE){
+      this.setState({currentScreen: <HomeScreen userData={{firstName: 'Offline Developer'}}/>});
     }else{
       this.setState({currentScreen: <Login loginReturn={this.setUserData.bind(this)} loggedIn={false} authError={true}/>});
     }
@@ -49,7 +53,7 @@ class App extends Component {
   setUserData(userData){
     console.log(userData);
     this.setState({userData: userData.data, loggedIn: userData.auth}, () => {
-      console.log("Loggedf in shoudl be " + userData.auth);
+      console.log("Logged in should be " + userData.auth);
       
       this.checkLoggedIn();
     });

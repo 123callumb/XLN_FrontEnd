@@ -34,10 +34,10 @@ export default class Filter extends Component {
                 <p>Toggle Ratings</p>
                 <Button variant={this.props.rating == true ?  'contained' : 'outlined'} color="secondary" onClick={() => {this.props.toggleRating(true)}} style={{margin: '2%', color: this.props.rating == true ? 'white' : '#00a4c4'}}>ON</Button>
                 <Button variant={this.props.rating == false ? 'contained' : 'outlined'} color="secondary" onClick={() => {this.props.toggleRating(false)}} style={{margin: '2%', color: this.props.rating == true ? '#00a4c4' : 'white'}}>OFF</Button>
-                {/* <p>Range: {this.state.radius}</p> */}
-                {/* <MuiThemeProvider theme={sliderTheme}>
-                    <Slider onChange={(e, v) => this.setState({radius: v})} value={this.state.radius} />
-                </MuiThemeProvider> */}
+                <p>Range: {this.props.radius}</p> 
+                <MuiThemeProvider theme={sliderTheme}>
+                    <Slider onChange={(e, v) => this.props.updateRadius(v)} value={this.props.radius} max={10} min={1} step={1}/>
+                </MuiThemeProvider>
             </div>
         );
     }

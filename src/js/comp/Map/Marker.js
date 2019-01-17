@@ -43,3 +43,16 @@ export class Marker extends Component {
         );
     }
 }
+
+export class CleanMarker extends Component {
+    constructor(props){
+        super(props);
+    }
+    render(){
+        return(
+            <div className={markerHolderStyle}>
+                <img src={MarkerSvg} height="100%"/>
+            </div>
+       );
+    }
+}

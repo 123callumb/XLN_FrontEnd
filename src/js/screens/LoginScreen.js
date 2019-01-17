@@ -15,7 +15,7 @@ export default class Login extends Component {
     render(){
         return(
             <div className={loginScreenBack}>
-                <NavBar loggedIn={false} toggleRating={this.catchMethod.bind(this)}/>
+                <NavBar loggedIn={false} toggleRating={this.catchMethod.bind(this)} updateRadius={this.catchMethod.bind(this)}/>
                 <LoginBox loginReturn={this.props.loginReturn.bind(this)}/>
                 <SnackWarner authError={this.props.authError}/>
             </div>

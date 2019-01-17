@@ -1,7 +1,14 @@
 .infoBoxStyle {
-    left: 2% !important;
-    right: 2% !important;
+    left: 20% !important;
+    right: 20% !important;
 }
 .infoBoxContents {
     padding: 2%;
+}
+
+@media screen and (max-width: 500px){
+    .infoBoxStyle{
+        left: 2% !important;
+        right: 2% !important;
+    }
 }

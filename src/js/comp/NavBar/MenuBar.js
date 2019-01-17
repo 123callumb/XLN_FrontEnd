@@ -49,7 +49,7 @@ export default class MenuBar extends Component {
             <ListItem button onClick={() => this.settings()}><ListItemText primary={"Settings"}/></ListItem>,
             <ListItem button onClick={() => this.businessButton()}><ListItemText primary={"Businesses"}/></ListItem>,
             <ListItem button onClick={() => this.logOut()}><ListItemText primary={"Log Out"}/></ListItem>,
-            <Filter toggleRating={this.props.toggleRating.bind(this)} rating={this.props.rating} />
+            <Filter toggleRating={this.props.toggleRating.bind(this)} rating={this.props.rating} radius={this.props.radius} updateRadius={this.props.updateRadius.bind(this)}/>
         ];
 
         const notLoggedContent = [
@@ -73,7 +73,7 @@ export default class MenuBar extends Component {
                         </List>
                     </Drawer>
                     <SettingsDash enabled={this.state.settingDash} disableHandler={this.disableSettings.bind(this)}/>
-                    <BusinessDash enabled={this.state.businessDash} disableHandler={this.disableBusiness.bind(this)} />
+                    <BusinessDash enabled={this.state.businessDash} disableHandler={this.disableBusiness.bind(this)} businessData={this.props.businessData} lat={this.props.lat} long={this.props.long}/>
                 </div>
             );
     }

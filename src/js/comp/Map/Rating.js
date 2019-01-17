@@ -32,3 +32,28 @@ export default class Rating extends Component {
 
 // mwadgedale.co.uk/phpmyadmin
 // xln #CoffeeMouse72
+
+export class RatingUI extends Component {
+    constructor(props){
+        super(props); 
+        let amount = Math.round(this.props.stars/2);
+        let stars = [];
+        for(let i = 0; i < amount; i++){
+            stars.push(true)
+        }
+        this.state = {
+            rating: stars
+        }
+        console.log("Star rating " + props.stars);
+        
+    }
+    render(){
+        return(
+            <div style={this.props.styleOpt}>
+                {this.state.rating.map((e, i) => {
+                    return <a key={i}>&#9733;</a>
+                })}
+            </div>
+        );
+    }
+}

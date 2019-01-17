@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
+import BackIcon from '@material-ui/icons/ArrowBackIos';
 
 export default class extends Component {
     constructor(props){
@@ -14,9 +15,11 @@ export default class extends Component {
     }
     render(){
         return(
-            <Drawer open={this.props.enabled} anchor="top">
-                <div style={{height: '100vh', padding: '20px'}}>
-                    <Button color="secondary" variant="outlined" onClick={() => this.closeDash()} style={{textAlign: 'right'}}>X</Button>
+            <Drawer open={this.props.enabled} anchor="right">
+                <div style={{backgroundColor: 'white', width: '100vw'}}>
+                    <Button color="secondary" variant="text" style={{padding: '20px'}} onClick={() => this.closeDash()}><BackIcon/>Back</Button>
+                </div>
+                <div style={{width: '100vw', padding: '10px', boxSizing: 'border-box'}}>
                     {this.props.children}
                 </div>
             </Drawer>
