@@ -43,7 +43,7 @@ class NavBar extends Component {
                         </Grid>
                     </Grid>
                 </AppBar>
-                <MenuBar menuOpen={this.state.menuOpen} closeMenu={this.closeMenu.bind(this)} loggedIn={this.props.loggedIn} toggleRating={this.props.toggleRating.bind(this)} rating={this.props.rating} radius={this.props.radius} updateRadius={this.props.updateRadius.bind(this)} businessData={this.props.businessData} lat={this.props.lat} long={this.props.long}/>
+                <MenuBar menuOpen={this.state.menuOpen} closeMenu={this.closeMenu.bind(this)} loggedIn={this.props.loggedIn} toggleRating={this.props.toggleRating.bind(this)} rating={this.props.rating} radius={this.props.radius} updateRadius={this.props.updateRadius.bind(this)} businessData={this.props.businessData} lat={this.props.lat} long={this.props.long} admin={this.props.admin}/>
             </div>
         );
     }

@@ -92,10 +92,14 @@ export default class HomeScreen extends Component {
                                     console.log(dataRes);
                                     if(dataRes.data != null){
                                         console.log("%cHOMEPAGES: Loaded business data", "color: green");
-                                        this.setState({businessData: dataRes.data});
+                                        this.setState({businessData: dataRes.data}, () => {
+                                            this.forceUpdate();
+                                        });
                                     }else{
                                         console.log("%cHOMEPAGES: Error parsing data result or data result is null :( \n Going to examples data...", "color: red");
-                                        this.setState({businessData: exampleDataArray}); 
+                                        this.setState({businessData: exampleDataArray}, () => {
+                                            this.forceUpdate();
+                                        }); 
                                     }
                                                 
                                 }catch(e){
@@ -170,7 +174,7 @@ export default class HomeScreen extends Component {
     render(){
         return(
             <div>
-                <NavBar loggedIn={true} toggleRating={this.toggleRating.bind(this)} rating={this.state.rate} radius={this.state.radius} long={this.state.long} lat={this.state.lat} businessData={this.state.businessData} updateRadius={this.updateRadius.bind(this)}/>
+                <NavBar loggedIn={true} toggleRating={this.toggleRating.bind(this)} rating={this.state.rate} radius={this.state.radius} long={this.state.long} lat={this.state.lat} businessData={this.state.businessData} updateRadius={this.updateRadius.bind(this)} admin={this.props.userData.admin}/>
                 <SearchBox long={this.state.long} lat={this.state.lat} searchCallback={this.getSearchCallBack.bind(this)}/>
                 <Snackbar ContentProps={{style: {backgroundColor: 'rgb(40, 40, 40)'}}} autoHideDuration={4000} open={this.state.welcomeSnack} onClose={() => this.setState({welcomeSnack: false})} anchorOrigin={{vertical: 'bottom', horizontal: 'center'}} message={<span>Welcome back {this.props.userData.firstName}</span>} />
                 <InfoBox enabled={this.state.infoBox} data={this.state.infoBoxData} closeHandler={this.closeInfoBox.bind(this)} onMoreInfo={this.activateFillInfo.bind(this)}/>
