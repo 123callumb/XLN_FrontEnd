@@ -28,6 +28,10 @@ class NavBar extends Component {
     closeMenu(){
         this.setState({menuOpen: false});
     }
+    panTo(data){
+        this.props.panTo(data);
+        this.closeMenu()
+    }
     render(){
         return(
             <div>
@@ -43,7 +47,20 @@ class NavBar extends Component {
                         </Grid>
                     </Grid>
                 </AppBar>
-                <MenuBar menuOpen={this.state.menuOpen} closeMenu={this.closeMenu.bind(this)} loggedIn={this.props.loggedIn} toggleRating={this.props.toggleRating.bind(this)} rating={this.props.rating} radius={this.props.radius} updateRadius={this.props.updateRadius.bind(this)} businessData={this.props.businessData} lat={this.props.lat} long={this.props.long} admin={this.props.admin}/>
+                <MenuBar 
+                    menuOpen={this.state.menuOpen} 
+                    closeMenu={this.closeMenu.bind(this)} 
+                    loggedIn={this.props.loggedIn} 
+                    toggleRating={this.props.toggleRating.bind(this)} 
+                    rating={this.props.rating} 
+                    radius={this.props.radius} 
+                    updateRadius={this.props.updateRadius.bind(this)} 
+                    businessData={this.props.businessData} 
+                    at={this.props.lat} 
+                    long={this.props.long} 
+                    admin={this.props.admin} 
+                    panTo={this.panTo.bind(this)}
+                />
             </div>
         );
     }

@@ -79,6 +79,10 @@ export default class MenuBar extends Component {
 
         this.setState({menuContent: this.props.loggedIn ? this.props.admin == 1 ? adminInContent : loggedInContent : notLoggedContent});
     }
+    panTo(val){
+        this.props.panTo(val);
+        this.disableBusiness();
+    }
     render(){
             return(
                 <div>
@@ -92,7 +96,7 @@ export default class MenuBar extends Component {
                         </List>
                     </Drawer>
                     <SettingsDash enabled={this.state.settingDash} disableHandler={this.disableSettings.bind(this)}/>
-                    <BusinessDash enabled={this.state.businessDash} disableHandler={this.disableBusiness.bind(this)} businessData={this.props.businessData} lat={this.props.lat} long={this.props.long}/>
+                    <BusinessDash enabled={this.state.businessDash} disableHandler={this.disableBusiness.bind(this)} businessData={this.props.businessData} lat={this.props.lat} long={this.props.long} panTo={this.panTo.bind(this)}/>
                     <UsersDash enabled={this.state.usersDash} disableHandler={this.disableUsers.bind(this)} admin={this.props.admin}/>
                 </div>
             );

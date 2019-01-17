@@ -112,7 +112,8 @@ export default class HomeScreen extends Component {
                         });
                     
                 }, (err) => {
-                    console.log("%cHOMEPAGES: Could not get your location! Error: " + err, "color: red"); 
+                    console.log("%cHOMEPAGES: Could not get your location! Error: ", "color: red"); 
+                    console.log(err);
                     this.setState({error: true});
                 }, {timeout: 10000});
     }
@@ -171,16 +172,30 @@ export default class HomeScreen extends Component {
             quickInfoData: data
         });
     }
+    panTo(data){
+            this.setState({
+                quickInfo: false,
+                quickInfoData: null,
+            }, () => {
+                this.setState({panData: data}, ()=> {
+                    this.setState({panData: null}, () => {
+                        this.forceUpdate();
+                    });
+                })
+            }); 
+        console.log("Why on earth do we always crash here? data is " + data.lat + data.long);
+        
+    }
     render(){
         return(
             <div>
-                <NavBar loggedIn={true} toggleRating={this.toggleRating.bind(this)} rating={this.state.rate} radius={this.state.radius} long={this.state.long} lat={this.state.lat} businessData={this.state.businessData} updateRadius={this.updateRadius.bind(this)} admin={this.props.userData.admin}/>
+                <NavBar loggedIn={true} toggleRating={this.toggleRating.bind(this)} rating={this.state.rate} radius={this.state.radius} long={this.state.long} lat={this.state.lat} businessData={this.state.businessData} updateRadius={this.updateRadius.bind(this)} admin={this.props.userData.admin} panTo={this.panTo.bind(this)}/>
                 <SearchBox long={this.state.long} lat={this.state.lat} searchCallback={this.getSearchCallBack.bind(this)}/>
                 <Snackbar ContentProps={{style: {backgroundColor: 'rgb(40, 40, 40)'}}} autoHideDuration={4000} open={this.state.welcomeSnack} onClose={() => this.setState({welcomeSnack: false})} anchorOrigin={{vertical: 'bottom', horizontal: 'center'}} message={<span>Welcome back {this.props.userData.firstName}</span>} />
                 <InfoBox enabled={this.state.infoBox} data={this.state.infoBoxData} closeHandler={this.closeInfoBox.bind(this)} onMoreInfo={this.activateFillInfo.bind(this)}/>
                 {this.state.businessData ? <Map radius={this.state.radius} rating={this.state.rate} businessData={this.state.businessData} long={this.state.long} lat={this.state.lat} onInfoTap={this.onInfoTap.bind(this)} panData={this.state.panData}/> : <CircularProgress color="secondary"/>}
                 <IssueBox open={this.state.error} callBack={this.errorHandler.bind(this)} errorString="Could not load local business data."/>
-                <BusinessPlace enabled={this.state.quickInfo} data={this.state.quickInfoData} disableHandler={this.closeQuickInfo.bind(this)} />
+                <BusinessPlace enabled={this.state.quickInfo} data={this.state.quickInfoData} disableHandler={this.closeQuickInfo.bind(this)} panTo={this.panTo.bind(this)}/>
             </div>
         );
     }

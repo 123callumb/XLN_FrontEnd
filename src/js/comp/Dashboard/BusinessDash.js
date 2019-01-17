@@ -66,6 +66,10 @@ export default class BusinessDash extends Component {
             this.setState({isSearching: false, tempSearchData: null});
         }
     }
+    panTo(val){
+        this.props.panTo(val);
+        this.closeBusiness()
+    }
     render(){
         return(
             <AbstractDash enabled={this.props.enabled} disableHandler={this.props.disableHandler.bind(this)}>
@@ -100,7 +104,7 @@ export default class BusinessDash extends Component {
                     }
                     
                 </List>
-                <BusinessPlace enabled={this.state.viewBusiness} disableHandler={this.closeBusiness.bind(this)} data={this.state.currentBusiness}/>
+                <BusinessPlace enabled={this.state.viewBusiness} disableHandler={this.closeBusiness.bind(this)} data={this.state.currentBusiness} panTo={this.panTo.bind(this)}/>
             </AbstractDash>
         );
     }
