@@ -80,7 +80,7 @@ export default class HomeScreen extends Component {
                                 try{
                                     console.log('%cSENDING REQUEST: api/business.php?longitude=' + this.state.long + '&latitude=' + this.state.lat + '&radius=' + this.state.radius + '&type=map', "color: blue");
                                     
-                                    const dataReq = await fetch('api/business.php?longitude=' + this.state.long + '&latitude=' + this.state.lat + '&radius=5&type=map', {
+                                    const dataReq = await fetch('api/business.php?longitude=' + this.state.long + '&latitude=' + this.state.lat + '&radius=' + this.state.radius + '&type=map', {
                                         method: 'GET'
                                     });
                                     const dataRes = await dataReq.json();

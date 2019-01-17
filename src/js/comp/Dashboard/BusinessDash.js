@@ -23,7 +23,9 @@ export default class BusinessDash extends Component {
             lat: null, // These two are needed for the search function.
             lng: null,
             viewBusiness: false,
-            currentBusiness: null
+            currentBusiness: null,
+            tempSearchData: null,
+            isSearching: false
         }  
     }
     componentWillReceiveProps(newProps){
@@ -40,6 +42,11 @@ export default class BusinessDash extends Component {
         this.setState({currentBusiness: data}, () => {
             this.setState({viewBusiness: true});
         });
+    }
+    fetchSearchData(){
+        (async() => {
+            const searchReq = await fetch('api/business.php');
+        })();
     }
     render(){
         return(
