@@ -38,6 +38,10 @@ export default class Map extends Component {
                 this.forceUpdate();
             });
         });
+
+        if(newProps.panData){
+            this.panToFunction(newProps.panData.long, newProps.panData.lat);
+        }
     }
     changeOfMapDetails(values){
         console.log(values.zoom);
@@ -63,6 +67,14 @@ export default class Map extends Component {
     reRenderGoogleMap(){
         if(this.state.radiusCircle){
             this.state.radiusCircle.setRadius((1609.34 * this.state.radius));
+        }
+    }
+    panToFunction(long, lat){
+        if(this.state.map != null){
+            let googleMaps = this.state.maps;
+            var latLng = new googleMaps.LatLng(lat, long);
+            this.state.map.panTo(latLng);
+            this.setState({zoom: 17});
         }
     }
     render(){

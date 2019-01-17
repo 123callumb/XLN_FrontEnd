@@ -1,14 +1,18 @@
 .searchBox {
-    padding: 10px 20px;
     box-sizing: border-box;
-    background-color: rgb(250, 250, 250);
     position: fixed;
-    top: 15vh;
+    top: 17vh;
     width: 80vw;
     left: 5vw;
     max-width: 350px;
-    max-height: 50px;
     z-index: 101;
+
+}
+
+.searchBoxSearch {
+    padding: 10px 20px;
+    background-color: rgb(250, 250, 250);
+    max-height: 50px;
     box-shadow: 1px 2px 2px rgb(40, 40, 40, 0.5);
 }
 

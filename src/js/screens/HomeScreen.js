@@ -7,6 +7,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import InfoBox from '../comp/InfoBox/InfoBox';
 import SearchBox from '../comp/Search/SearchBox';
 import IssueBox from '../comp/InfoBox/IssueBox';
+import BusinessPlace from '../comp/Dashboard/BusinessPlace';
 
 const exampleDataArray = [
     {
@@ -57,7 +58,10 @@ export default class HomeScreen extends Component {
             infoBox: false,
             infoBoxData: null,
             error: false,
-            radius: 3
+            radius: 3,
+            panData: null,
+            quickInfo: false,
+            quickInfoData: null
         }
     }
     componentDidMount(){
@@ -88,10 +92,14 @@ export default class HomeScreen extends Component {
                                     console.log(dataRes);
                                     if(dataRes.data != null){
                                         console.log("%cHOMEPAGES: Loaded business data", "color: green");
-                                        this.setState({businessData: dataRes.data});
+                                        this.setState({businessData: dataRes.data}, () => {
+                                            this.forceUpdate();
+                                        });
                                     }else{
                                         console.log("%cHOMEPAGES: Error parsing data result or data result is null :( \n Going to examples data...", "color: red");
-                                        this.setState({businessData: exampleDataArray}); 
+                                        this.setState({businessData: exampleDataArray}, () => {
+                                            this.forceUpdate();
+                                        }); 
                                     }
                                                 
                                 }catch(e){
@@ -140,15 +148,39 @@ export default class HomeScreen extends Component {
             this.forceUpdate();
         });
     }
+    getSearchCallBack(data){
+        this.onInfoTap(data);
+        this.setState({
+            panData: {long: data.longitude, lat: data.latitude}
+        }, () => {
+            this.forceUpdate();
+            this.setState({
+                panData: null
+            }); 
+        })
+    }
+    closeQuickInfo(){
+        this.setState({
+            quickInfo: false,
+            quickInfoData: null
+        });
+    }
+    activateFillInfo(data){
+        this.setState({
+            quickInfo: true,
+            quickInfoData: data
+        });
+    }
     render(){
         return(
             <div>
-                <NavBar loggedIn={true} toggleRating={this.toggleRating.bind(this)} rating={this.state.rate} radius={this.state.radius} long={this.state.long} lat={this.state.lat} businessData={this.state.businessData} updateRadius={this.updateRadius.bind(this)}/>
-                <SearchBox />
+                <NavBar loggedIn={true} toggleRating={this.toggleRating.bind(this)} rating={this.state.rate} radius={this.state.radius} long={this.state.long} lat={this.state.lat} businessData={this.state.businessData} updateRadius={this.updateRadius.bind(this)} admin={this.props.userData.admin}/>
+                <SearchBox long={this.state.long} lat={this.state.lat} searchCallback={this.getSearchCallBack.bind(this)}/>
                 <Snackbar ContentProps={{style: {backgroundColor: 'rgb(40, 40, 40)'}}} autoHideDuration={4000} open={this.state.welcomeSnack} onClose={() => this.setState({welcomeSnack: false})} anchorOrigin={{vertical: 'bottom', horizontal: 'center'}} message={<span>Welcome back {this.props.userData.firstName}</span>} />
-                <InfoBox enabled={this.state.infoBox} data={this.state.infoBoxData} closeHandler={this.closeInfoBox.bind(this)}/>
-                {this.state.businessData ? <Map radius={this.state.radius} rating={this.state.rate} businessData={this.state.businessData} long={this.state.long} lat={this.state.lat} onInfoTap={this.onInfoTap.bind(this)}/> : <CircularProgress color="secondary"/>}
+                <InfoBox enabled={this.state.infoBox} data={this.state.infoBoxData} closeHandler={this.closeInfoBox.bind(this)} onMoreInfo={this.activateFillInfo.bind(this)}/>
+                {this.state.businessData ? <Map radius={this.state.radius} rating={this.state.rate} businessData={this.state.businessData} long={this.state.long} lat={this.state.lat} onInfoTap={this.onInfoTap.bind(this)} panData={this.state.panData}/> : <CircularProgress color="secondary"/>}
                 <IssueBox open={this.state.error} callBack={this.errorHandler.bind(this)} errorString="Could not load local business data."/>
+                <BusinessPlace enabled={this.state.quickInfo} data={this.state.quickInfoData} disableHandler={this.closeQuickInfo.bind(this)} />
             </div>
         );
     }
