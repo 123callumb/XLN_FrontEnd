@@ -4,7 +4,6 @@ import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
-import Chip from '@material-ui/core/Chip';
 import { RatingUI } from '../Map/Rating';
 
 import { infoBoxStyle, infoBoxContents } from '../../../css/InfoBox.css';
@@ -34,7 +33,7 @@ export default class InfoBox extends Component {
                             <Grid item xs={3} style={{textAlign: 'left'}}>Rating: </Grid>
                             <Grid item xs={9} style={{textAlign: 'right'}}>{this.props.data.rating ? <RatingUI stars={this.props.data.rating} styleOpt={{color: 'black'}}/> : 'No Rating'}</Grid>
                         </Grid>
-                        <Grid item xs={12}><Button variant="contained" style={{width: '100%', borderRadius: '0', color: 'white', boxShadow: 'none'}} color="secondary">More Details &gt;&gt;</Button></Grid>
+                        <Grid item xs={12}><Button onClick={() => this.props.onMoreInfo(this.props.data)} variant="contained" style={{width: '100%', borderRadius: '0', color: 'white', boxShadow: 'none'}} color="secondary">More Details &gt;&gt;</Button></Grid>
                     </Grid>
                 </div>
                 :null} 
