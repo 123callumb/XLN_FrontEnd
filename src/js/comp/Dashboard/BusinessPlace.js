@@ -101,7 +101,7 @@ export default class BusinessPlace extends Component {
                     headers: {'Accept' : 'json/application' , 'Content-Type' : 'application/json'},
                     body: JSON.stringify({
                         type: 'delete',
-                        table: 'business',
+                        table: 'businesses',
                         data: {id: this.props.data.id}
                     })
                 });

@@ -45,7 +45,7 @@ export default class BusinessEdit extends Component {
                     headers: {'Accept' : 'json/application' , 'Content-Type' : 'application/json'},
                     body: JSON.stringify({
                         type: 'update',
-                        table: 'business',
+                        table: 'businesses',
                         data: this.state
                     })
                 });

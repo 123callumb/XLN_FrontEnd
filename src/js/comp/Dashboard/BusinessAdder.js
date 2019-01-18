@@ -45,7 +45,7 @@ export default class BusinessAdder extends Component {
                     headers: {'Accept' : 'application/json' , 'Content-Type' : 'application/json'},
                     body: JSON.stringify({
                         type: 'update',
-                        table: 'business',
+                        table: 'businesses',
                         data: this.state
                     })
                 });
