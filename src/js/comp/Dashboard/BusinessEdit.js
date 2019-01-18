@@ -1,48 +1,48 @@
 import React, { Component } from 'react';
-
 import AbstractDash from './AbstractDash';
 import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
 import IssueBox from '../InfoBox/IssueBox';
+import TextField from '@material-ui/core/TextField';
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-export default class BusinessAdder extends Component {
+
+export default class BusinessEdit extends Component {
     constructor(props){
         super(props);
+        let bData = this.props.data;
         this.state = {
-            name: '',
-            businessType: '',
-            address: '',
-            postCode: '',
-            rating: 10,
-            existingCustomer: false,
-            latitude: '',
-            longitude: '',
-            sicCode: '',
-            sicDescription: '',
-            hasFibre: false,
-            isFibreAvailable: false,
-            hasActiveLead: false,
-            isCancelPending: false,
-            landlineNo: '',
-            mobileNo: '',
-            interested: false,
+            id: bData.id,
+            name: bData.name ? bData.name : '',
+            businessType: bData.businessType ? bData.businessType : '',
+            address: bData.address ? bData.postCode : '',
+            postCode: bData.postCode ? bData.postCode : '',
+            rating: bData.rating ? bData.rating : '',
+            existingCustomer: bData.existingCustomer ? !!bData.existingCustomer : false,
+            latitude: bData.latitude ? bData.latitude : '',
+            longitude: bData.longitude ? bData.longitude : '',
+            sicCode: bData ? bData.sicCode : '',
+            sicDescription: bData.sicDescription ? bData.sicDescription : '',
+            hasFibre: bData.hasFibre ? !!bData.hasFibre : false,
+            isFibreAvailable: bData.isFibreAvailable ? !!bData.isFibreAvailable : false,
+            hasActiveLead: bData.hasActiveLead ? !!bData.hasActiveLead : false,
+            isCancelPending: bData.isCancelPending ? !!bData.isCancelPending : false,
+            landlineNo: bData.landlineNo ? !!bData.landlineNo : '',
+            mobileNo: bData.mobileNo ? bData.mobileNo : '',
+            interested: bData.interested ? !!bData.interested : false,
             errorMsg: 'Please make sure all fields are filled in!',
             errorUI: false
         }
     }
-    closeError(){
-        this.setState({errorUI: false, errorMsg: 'Please make sure all fields are filled in!'}); //I set that back to normal just incase ;)
-    }
-    submitData(){
-        (async() => {
+    updateData(){
 
-            try{
-                const sendData = await fetch('api/business.php', {
+        try{
+
+            (async() => {
+                const updateReq = await fetch('api/business.php', {
                     method: 'POST',
-                    headers: {'Accept' : 'application/json' , 'Content-Type' : 'application/json'},
+                    headers: {'Accept' : 'json/application' , 'Content-Type' : 'application/json'},
                     body: JSON.stringify({
                         type: 'update',
                         table: 'business',
@@ -50,31 +50,35 @@ export default class BusinessAdder extends Component {
                     })
                 });
     
-                const response = await sendData.json();
-
-                console.log(response);
-                
-                if(!response.error){
-                    console.log(response);
+                const updateRes = await updateReq.json();
+    
+                if(!updateRes.error){
+                    console.log(updateRes);
                     this.props.disableHandler();
                 }else{
                     this.setState({
-                        errorMsg: response.error,
+                        errorMsg: updateRes.error,
                         errorUI: true
                     });
                 }
+            })();
 
-            }catch(e){
-                console.log("Insert business data Error " + e);
-                this.setState({errorMsg: e, errorUI: true});
-            }
-
-        })();
+        }catch(e){
+            this.setState({
+                errorMsg: e,
+                errorUI: true
+            });
+        }
+    }
+    closeError(){
+        this.setState({
+            errorUI: false
+        })
     }
     render(){
         return(
-            <AbstractDash enabled={this.props.enabled} disableHandler={this.props.disableHandler.bind(this)}>
-                <h3 style={{textAlign: 'center'}}>Add New Business</h3>
+            <AbstractDash  enabled={this.props.enabled} disableHandler={this.props.disableHandler.bind(this)}>
+                <h3 style={{textAlign: 'center'}}>Edit Business</h3>
                 <Grid container style={{width: '100vw', padding: '20px'}} spacing={24}>
                     <Grid item xs={12}><TextField label="Business Name" value={this.state.name} onChange={(e) => this.setState({name: e.target.value})} style={{width: '100%'}}/></Grid>
                     <Grid item xs={12}><TextField label="Business Type" value={this.state.businessType} onChange={(e) => this.setState({businessType: e.target.value})} style={{width: '100%'}}/></Grid>
@@ -93,7 +97,7 @@ export default class BusinessAdder extends Component {
                     <Grid item xs={12}><TextField label="Landline Number" type="number" value={this.state.landlineNo} onChange={(e) => this.setState({landlineNo: e.target.value})} style={{width: '100%'}}/></Grid>
                     <Grid item xs={12}><TextField label="Mobile Number" type="number" value={this.state.mobileNo} onChange={(e) => this.setState({mobileNo: e.target.value})} style={{width: '100%'}}/></Grid>
                     <Grid item xs={12}><FormControlLabel label="Interested" control={<Switch checked={this.state.interested} onChange={(e) => this.setState({interested: e.target.checked})}/>}  /></Grid>
-                    <Grid item xs={12}><Button onClick={() => this.submitData()} variant="contained" style={{width: '100%', borderRadius: '0', color: 'white', boxShadow: 'none'}} color="secondary">Add Business</Button></Grid>
+                    <Grid item xs={12}><Button onClick={() => this.updateData()} variant="contained" style={{width: '100%', borderRadius: '0', color: 'white', boxShadow: 'none'}} color="secondary">Update</Button></Grid>
                 </Grid>
                 <IssueBox open={this.state.errorUI} callBack={this.closeError.bind(this)} errorString={this.state.errorMsg} buttonText="Ok" /> 
             </AbstractDash>

@@ -20,6 +20,8 @@ import ElectricIcon from '@material-ui/icons/OfflineBolt';
 import MitIcon from '@material-ui/icons/MobileFriendly';
 import TidIcon from '@material-ui/icons/Computer';
 import ErrorIcon from '@material-ui/icons/Error';
+import BusinessEdit from './BusinessEdit';
+import IssueBox from '../InfoBox/IssueBox';
 
 
 function formatPhoneNum(orgnum) {
@@ -35,7 +37,10 @@ export default class BusinessPlace extends Component {
         super(props);
         this.state = {
             serviceData: null,
-            serviceLoaded: false
+            serviceLoaded: false,
+            editUI: false,
+            errorUI: false,
+            errorMsg: 'Something went wrong :('
         }
     }
     componentWillReceiveProps(newProps){
@@ -79,10 +84,51 @@ export default class BusinessPlace extends Component {
         this.props.panTo(data);
     }
     onEdit(){
-
+        this.setState({
+            editUI: true
+        })
+    }
+    onCloseEdit(){
+        this.setState({
+            editUI: false
+        })
     }
     onDelete(){
+        (async() => {
+            try{
+                const deleteReq = await fetch('api/business.php', {
+                    method: 'POST',
+                    headers: {'Accept' : 'json/application' , 'Content-Type' : 'application/json'},
+                    body: JSON.stringify({
+                        type: 'delete',
+                        table: 'business',
+                        data: {id: this.props.data.id}
+                    })
+                });
 
+                const deleteRes = await deleteReq.json();
+
+                if(deleteRes.error){
+                    this.setState({
+                        errorUI: true,
+                        errorMsg: deleteRes.error
+                    })
+                }else{
+                    this.props.disableHandler(); // This should be a force update method 
+                }
+            }catch(e){
+                this.setState({
+                    errorUI: true,
+                    errorMsg: e
+                })
+            }
+        })();
+    }
+    closeError(){
+        this.setState({
+            errorUI: false,
+            errorMsg: 'Something went wrong :('
+        })
     }
     render(){
         return(
@@ -144,6 +190,8 @@ export default class BusinessPlace extends Component {
                     : 
                     <LinearProgress variant="indeterminate" />
                     }
+                    <IssueBox open={this.state.errorUI} callBack={this.closeError.bind(this)} errorString={this.state.errorMsg} buttonText="Ok"/>
+                    <BusinessEdit enabled={this.state.editUI} disableHandler={this.onCloseEdit.bind(this)} data={this.props.data}/>
             </AbstractDash>
         );
     }

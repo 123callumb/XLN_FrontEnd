@@ -36,9 +36,17 @@ export default class MenuBar extends Component {
     logOut(){
        (async() => {
            try{
-            const logOutSend = await fetch('api/auth.php?type=logout', {method: 'GET'});
+            const logOutSend = await fetch('api/auth.php?type=logout', {
+                method: 'POST',
+                headers: {'Accept' : 'application/json' , 'Content-Type' : 'application/json'},
+                body: JSON.stringify({type: 'logout'})
+            });
             const res = await logOutSend.json();
-            if(res.data){
+
+            console.log(res);
+            
+
+            if(res.error == null){
                 location.reload();
             }
            }catch(e){

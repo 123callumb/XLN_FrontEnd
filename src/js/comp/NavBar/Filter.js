@@ -22,7 +22,7 @@ export default class Filter extends Component {
         
     }
     componentWillReceiveProps(newProps){
-        console.log("Did get new porops, rating of" + newProps.rating);
+        console.log("Did get new props, rating of" + newProps.rating);
         
         this.props = newProps;
     }
@@ -36,7 +36,7 @@ export default class Filter extends Component {
                 <Button variant={this.props.rating == false ? 'contained' : 'outlined'} color="secondary" onClick={() => {this.props.toggleRating(false)}} style={{margin: '2%', color: this.props.rating == true ? '#00a4c4' : 'white'}}>OFF</Button>
                 <p>Range: {this.props.radius}</p> 
                 <MuiThemeProvider theme={sliderTheme}>
-                    <Slider onChange={(e, v) => this.props.updateRadius(v)} value={this.props.radius} max={10} min={1} step={1}/>
+                    <Slider onChange={(e, v) => this.props.updateRadius(v)} value={this.props.radius} max={10} min={0.5} step={0.5}/>
                 </MuiThemeProvider>
             </div>
         );
