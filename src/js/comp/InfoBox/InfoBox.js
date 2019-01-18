@@ -33,7 +33,7 @@ export default class InfoBox extends Component {
                             <Grid item xs={3} style={{textAlign: 'left'}}>Rating: </Grid>
                             <Grid item xs={9} style={{textAlign: 'right'}}>{this.props.data.rating ? <RatingUI stars={this.props.data.rating} styleOpt={{color: 'black'}}/> : 'No Rating'}</Grid>
                         </Grid>
-                        <Grid item xs={12}><Button onClick={() => this.props.onMoreInfo(this.props.data)} variant="contained" style={{width: '100%', borderRadius: '0', color: 'white', boxShadow: 'none'}} color="secondary">More Details &gt;&gt;</Button></Grid>
+                        <Grid item xs={12}><Button onClick={() => this.props.onMoreInfo(this.props.data)} variant="contained" style={{width: '100%', borderRadius: '0', color: 'white', boxShadow: 'none'}} color="secondary">More Details</Button></Grid>
                     </Grid>
                 </div>
                 :null} 

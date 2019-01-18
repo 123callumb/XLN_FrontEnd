@@ -8,7 +8,7 @@ import MarkerTickSvg from '../../../res/markerPointTick.svg';
 
 import { currentPosition } from './MarkerStyle';
 import { markerHolderStyle, markerHolderType, markerRating } from '../../../css/Map.css';
-import Rating from './Rating';
+import { RatingUI } from './Rating';
 
 export class PositionMarker extends Component {
     constructor(props){
@@ -36,8 +36,15 @@ export class Marker extends Component {
        return(
            <Grow in={true}>
                <div className={markerHolderStyle}>
-                {this.state.enableDetails == true ? <Grow in={true}><p className={markerHolderType}>{this.props.data.businessType}</p></Grow> : null}
-                {this.props.rating == true && this.state.enableDetails ? <Slide direction="right" in={true}><Rating stars={this.props.data.rating}/></Slide> : null}
+                {this.state.enableDetails == true ? 
+                <Grow in={true}>
+                    <div className={markerHolderType}>
+                        <b>{this.props.data.name}</b>
+                        <br />
+                        <a>{this.props.data.businessType}</a>
+                        {this.props.rating == true && this.state.enableDetails ? <RatingUI stars={this.props.data.rating} styleOpt={{color: 'black'}}/> : null}
+                    </div>
+                </Grow> : null}
                 <img src={this.props.data.hasActiveLead ? MarkerTickSvg : MarkerSvg} height="100%" onClick={() => this.props.onInfoTap(this.props.data)}/>
                </div>
            </Grow>

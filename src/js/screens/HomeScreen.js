@@ -50,7 +50,7 @@ export default class HomeScreen extends Component {
         super(props);
         this.state = {
             welcomeSnack: false,
-            rate: false,
+            rate: true,
             long: null,
             lat: null,
             loaded: false,
@@ -194,8 +194,8 @@ export default class HomeScreen extends Component {
                 <Snackbar ContentProps={{style: {backgroundColor: 'rgb(40, 40, 40)'}}} autoHideDuration={4000} open={this.state.welcomeSnack} onClose={() => this.setState({welcomeSnack: false})} anchorOrigin={{vertical: 'bottom', horizontal: 'center'}} message={<span>Welcome back {this.props.userData.firstName}</span>} />
                 <InfoBox enabled={this.state.infoBox} data={this.state.infoBoxData} closeHandler={this.closeInfoBox.bind(this)} onMoreInfo={this.activateFillInfo.bind(this)}/>
                 {this.state.businessData ? <Map radius={this.state.radius} rating={this.state.rate} businessData={this.state.businessData} long={this.state.long} lat={this.state.lat} onInfoTap={this.onInfoTap.bind(this)} panData={this.state.panData}/> : <CircularProgress color="secondary"/>}
-                <IssueBox open={this.state.error} callBack={this.errorHandler.bind(this)} errorString="Could not load local business data."/>
-                <BusinessPlace enabled={this.state.quickInfo} data={this.state.quickInfoData} disableHandler={this.closeQuickInfo.bind(this)} panTo={this.panTo.bind(this)}/>
+                <IssueBox open={this.state.error} callBack={this.errorHandler.bind(this)} buttonText="Try Again" errorString="Could not load local business data. Make sure you are connected to the internet and have allowed the app to access your location."/>
+                <BusinessPlace enabled={this.state.quickInfo} data={this.state.quickInfoData} disableHandler={this.closeQuickInfo.bind(this)} panTo={this.panTo.bind(this)} admin={this.props.userData.admin}/>
             </div>
         );
     }

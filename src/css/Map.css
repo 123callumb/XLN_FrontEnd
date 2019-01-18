@@ -1,13 +1,16 @@
 .markerHolderType {
-    width: fit-content;
-    padding: 5px 10px;
+    width: max-content;
+    box-sizing: border-box;
+    padding: 10px 20px;
     background-color: rgb(250, 250, 250);
     font-size: 1.3em;
     font-weight: 400;
     box-shadow: 1px 2px 2px rgb(40, 40, 40, 0.4);
     margin-left: 35px;
-    margin-top: -30px;
-    text-align: center;
+    top: -30px;
+    left: 10px;
+    position: absolute;
+    text-align: left;
     white-space: nowrap;
 }
 .markerRating {
@@ -23,6 +26,7 @@
 }
 .markerHolderStyle img {
     height: 50px;
+    margin-top: -25px;
     top: 0px;
     position: absolute;
 }

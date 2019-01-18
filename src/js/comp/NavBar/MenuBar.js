@@ -96,7 +96,7 @@ export default class MenuBar extends Component {
                         </List>
                     </Drawer>
                     <SettingsDash enabled={this.state.settingDash} disableHandler={this.disableSettings.bind(this)}/>
-                    <BusinessDash enabled={this.state.businessDash} disableHandler={this.disableBusiness.bind(this)} businessData={this.props.businessData} lat={this.props.lat} long={this.props.long} panTo={this.panTo.bind(this)}/>
+                    <BusinessDash enabled={this.state.businessDash} admin={this.props.admin} disableHandler={this.disableBusiness.bind(this)} businessData={this.props.businessData} lat={this.props.lat} long={this.props.long} panTo={this.panTo.bind(this)}/>
                     <UsersDash enabled={this.state.usersDash} disableHandler={this.disableUsers.bind(this)} admin={this.props.admin}/>
                 </div>
             );

@@ -78,18 +78,24 @@ export default class BusinessPlace extends Component {
         console.log(data);
         this.props.panTo(data);
     }
+    onEdit(){
+
+    }
+    onDelete(){
+
+    }
     render(){
         return(
             <AbstractDash enabled={this.props.enabled} disableHandler={this.props.disableHandler.bind(this)}>
                 {this.props.data ?
                     <div>
-                        <Grid container style={{textAlign: 'center'}}>
+                        <Grid container style={{textAlign: 'center', padding: '20px'}}>
                             <Grid container>
                                 <Grid item xs={12} style={{marginBottom: '-16px'}}> <h2> {this.props.data.name} </h2></Grid>
                                 <Grid item xs={12}> {this.props.data.rating ? <RatingUI stars={this.props.data.rating} styleOpt={{color: 'black'}}/> : 'No Rating'}</Grid>
                             </Grid>
-                            <Divider width="100%" style={{marginTop: '20px' }}/>
-                            <div style={{padding: '30px'}}>
+                            <Divider width="100%" style={{marginTop: '20px'}}/>
+                            <div style={{padding: '30px 0'}}>
                                 <Grid container spacing={32}>
                                     <Grid item xs={3} style={{textAlign: 'left'}}>Type: </Grid>
                                     <Grid item xs={9} style={{textAlign: 'right'}}> {this.props.data.businessType != null ? this.props.data.businessType : "N/A"} </Grid>
@@ -111,6 +117,7 @@ export default class BusinessPlace extends Component {
                                         {this.state.serviceData.existing.map((e, i) => {
                                            return <ExistingItem key={i} data={e} />
                                         })}
+                                        {this.state.serviceData.existing.length == 0 ? <h5 style={{color: 'rgb(175, 175, 175)'}}>No Existing Services</h5> : null}
                                     </List>
                                 <h3 style={{textAlign: 'center'}}>Services you can Offer</h3>
                                     <List>
@@ -125,7 +132,14 @@ export default class BusinessPlace extends Component {
                                     <LinearProgress variant="indeterminate"/>
                                 </div>
                                 }
-                        </Grid>
+                                {this.props.admin == 1 ? 
+                                    <Grid item container xs={12}>
+                                        <h3 style={{textAlign: 'center'}}>Admin Options:</h3>
+                                        <Grid item xs={12}><Button onClick={() => this.onEdit()} variant="contained" style={{width: '100%', borderRadius: '0', color: 'white', boxShadow: 'none', backgroundColor: '#00A86B', marginBottom: '10px'}}>Edit</Button></Grid>
+                                        <Grid item xs={12}><Button onClick={() => this.onDelete()} variant="contained" style={{width: '100%', borderRadius: '0', color: 'white', boxShadow: 'none', backgroundColor: '#ED2939'}}>Delete</Button></Grid>
+                                    </Grid>
+                                    : null}
+                            </Grid>
                     </div> 
                     : 
                     <LinearProgress variant="indeterminate" />

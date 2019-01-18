@@ -20,7 +20,7 @@ export default class IssueBox extends Component {
                 <DialogTitle>Oooops! Something went wrong.</DialogTitle>
                 <DialogContent>
                     <div style={{marginBottom: '20px'}}>{this.props.errorString}</div>
-                    <Button variant="contained" color="secondary" style={{color: 'white'}} onClick={() => this.props.callBack()}>Try Again</Button>
+                    <Button variant="contained" color="secondary" style={{color: 'white'}} onClick={() => this.props.callBack()}>{this.props.buttonText}</Button>
                 </DialogContent>
             </Dialog>
         );

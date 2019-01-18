@@ -15,6 +15,8 @@ import BusinessPlace from './BusinessPlace';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import VerifiedIcon from '@material-ui/icons/HowToReg';
 import NotVerIcon from '@material-ui/icons/AccountCircleRounded';
+import AddIcon from '@material-ui/icons/AddCircle';
+import BusinessAdder from './BusinessAdder';
 
 
 
@@ -28,7 +30,8 @@ export default class BusinessDash extends Component {
             viewBusiness: false,
             currentBusiness: null,
             tempSearchData: null,
-            isSearching: false
+            isSearching: false,
+            addDashUI: false
         }  
     }
     componentWillReceiveProps(newProps){
@@ -70,6 +73,16 @@ export default class BusinessDash extends Component {
         this.props.panTo(val);
         this.closeBusiness()
     }
+    onAddDash(){
+        this.setState({
+            addDashUI: true
+        })
+    }
+    closeAddDash(){
+        this.setState({
+            addDashUI: false
+        })
+    }
     render(){
         return(
             <AbstractDash enabled={this.props.enabled} disableHandler={this.props.disableHandler.bind(this)}>
@@ -78,7 +91,7 @@ export default class BusinessDash extends Component {
                     <Grid container>
                         <Grid item xs={2} md={2}><span><SearchIcon style={{marginTop: '5%'}}/></span></Grid>
                         <Grid item xs={8} md={8}><TextField placeholder="Search Business Name/Type" style={{width: '100%'}} onChange={(e) => this.fetchSearchData(e.target.value)}/></Grid>
-                        <Grid item xs={2} md={2}><span><FilterIcon style={{marginTop: '5%'}}/></span></Grid>
+                        <Grid item xs={2} md={2}><span>{this.props.admin == 1 ? <AddIcon onClick={() => this.onAddDash()}/> : <FilterIcon style={{marginTop: '5%'}}/>}</span></Grid>
                     </Grid>
                 </div>
                 <List>
@@ -94,7 +107,7 @@ export default class BusinessDash extends Component {
                             })
                             :
                             <LinearProgress color="secondary" variant="indeterminate" />
-                    :
+                        :
                         this.state.data ? 
                             this.state.data.map((e, i) => {
                                 return <BusinessItem placeData={e} key={i} setBusiness={this.setBusiness.bind(this)}/> 
@@ -104,7 +117,8 @@ export default class BusinessDash extends Component {
                     }
                     
                 </List>
-                <BusinessPlace enabled={this.state.viewBusiness} disableHandler={this.closeBusiness.bind(this)} data={this.state.currentBusiness} panTo={this.panTo.bind(this)}/>
+                <BusinessPlace enabled={this.state.viewBusiness} disableHandler={this.closeBusiness.bind(this)} data={this.state.currentBusiness} panTo={this.panTo.bind(this)} admin={this.props.admin}/>
+                <BusinessAdder enabled={this.state.addDashUI} disableHandler={this.closeAddDash.bind(this)}/>
             </AbstractDash>
         );
     }
