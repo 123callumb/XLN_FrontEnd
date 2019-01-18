@@ -34,7 +34,19 @@ export default class MenuBar extends Component {
         this.setState({businessDash: true});
     }
     logOut(){
-        console.log("logout");
+       (async() => {
+           try{
+            const logOutSend = await fetch('api/auth.php?type=logout', {method: 'GET'});
+            const res = await logOutSend.json();
+            if(res.data){
+                location.reload();
+            }
+           }catch(e){
+               console.log("Interesting logout :) ");
+               location.reload();
+           }
+
+       })();
     }
     settings(){
         this.setState({settingDash: true});
@@ -51,11 +63,13 @@ export default class MenuBar extends Component {
     disableUsers(){
         this.setState({usersDash: false});
     }
+    helpButton(){
+        console.log("No help for you.... Callum please add a random dash here with a contact details....okay."); 
+    }
     componentWillReceiveProps(){
         const loggedInContent = [
             <h2 style={{paddingLeft: '16px'}}>Menu</h2>,
             <Divider width="90%" />,
-            <ListItem button onClick={() => this.settings()}><ListItemText primary={"Settings"}/></ListItem>,
             <ListItem button onClick={() => this.businessButton()}><ListItemText primary={"Businesses"}/></ListItem>,
             <ListItem button onClick={() => this.logOut()}><ListItemText primary={"Log Out"}/></ListItem>,
             <Filter toggleRating={this.props.toggleRating.bind(this)} rating={this.props.rating} radius={this.props.radius} updateRadius={this.props.updateRadius.bind(this)}/>
@@ -64,7 +78,6 @@ export default class MenuBar extends Component {
         const adminInContent = [
             <h2 style={{paddingLeft: '16px'}}>Admin Menu</h2>,
             <Divider width="90%" />,
-            <ListItem button onClick={() => this.settings()}><ListItemText primary={"Settings"}/></ListItem>,
             <ListItem button onClick={() => this.businessButton()}><ListItemText primary={"Businesses"}/></ListItem>,
             <ListItem button onClick={() => this.usersButton()}><ListItemText primary={"Users"}/></ListItem>,
             <ListItem button onClick={() => this.logOut()}><ListItemText primary={"Log Out"}/></ListItem>,
